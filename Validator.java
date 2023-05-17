@@ -45,7 +45,7 @@ public class Validator {
 		//Kiem tra username bat dau bang 0, 9?
 		if(username.charAt(0) == '0'
 				&& username.charAt(1) == '9'
-				&& username.length() == 11
+				&& username.length() == 10
 				) {
 			
 			//Kiem tra xem username co du 11 ky tu toan so hay khong
