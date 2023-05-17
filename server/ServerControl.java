@@ -19,6 +19,7 @@ public class ServerControl {
 	
 	public ServerControl(ServerView view) {
 		this.view = view;
+		list = new ArrayList<User>();
 		list.add(new User("0987654321", "111111"));
 		list.add(new User("0988888888", "111111"));
 		list.add(new User("0977777777", "111111"));
