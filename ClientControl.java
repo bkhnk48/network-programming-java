@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.util.*;
 import javax.swing.*;
 
+import server.User;
+
 public class ClientControl {
 	//private User model;
 	private ClientView view;

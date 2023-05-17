@@ -1,6 +1,9 @@
 //package view;
 
 import javax.swing.*;
+
+import server.User;
+
 //import controller.LoginListener;
 //import model.User;
 //import model.UserList;

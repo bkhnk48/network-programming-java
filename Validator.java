@@ -1,3 +1,4 @@
+import server.User;
 
 public class Validator {
 	
