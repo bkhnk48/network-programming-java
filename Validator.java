@@ -49,7 +49,7 @@ public class Validator {
 				) {
 			
 			//Kiem tra xem username co du 11 ky tu toan so hay khong
-			for(int i = 2; i < 11; i++) {
+			for(int i = 2; i < 10; i++) {
 				if(username.charAt(i) < '0' || username.charAt(i) > '9') {
 					return false;
 				}
