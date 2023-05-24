@@ -13,7 +13,11 @@ https://drive.google.com/drive/folders/1YZukOpEQcXLAl337Ih7dijtA0788cfDd?usp=sha
 
 a) Lưu danh sách vừa đăng nhập
 B1: đổi tên thuộc tính list của lớp ServerControl thành tên khác: listActiveAccounts. Thêm thuộc tính availableAccounts cũng là một danh sách các tài khoản đã login.
+
 B2: Thêm vào danh sách availableAccounts một user vừa đăng nhập thành công. Thực hiện việc kiểm tra liệu user đó đã đăng nhập chưa? Nếu đã từng đăng nhập rồi thì không cho đăng nhập. Kiểm tra đăng nhập đó thực hiện qua việc bổ sung vào phương thức checkLogin
+
 B3: xây dựng phương thức getAvailableUsers trả về ArrayList<String> là danh sách các User đã đăng nhập vào hệ thống
+
 B4: Xây dựng cơ chế RMI để server đăng ký đối tượng RMI, client gọi đến đối tượng đó để lấy ra danh sách các nick đã đăng nhập
+
 B5: Client sau khi đăng nhập thành công thì sẽ triệu gọi đối tượng availUsers từ RMIRegistry rồi tiếp tục gọi phương thức getAllAvailableUsers.
