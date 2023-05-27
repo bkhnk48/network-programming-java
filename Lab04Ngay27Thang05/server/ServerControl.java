@@ -58,6 +58,15 @@ public class ServerControl {
 		int index = this.checkAlreadyLogin(user);
 		if(index != -1) {
 			this.availableAccounts.add(user);
+			
+			//Cap nhat status trong listActiveAccounts
+			for (int i = 0; i < listActiveAccounts.size(); index++) {
+	            if (listActiveAccounts.get(i).equals(user)) {
+	            	user.setStatus("on");
+	            	listActiveAccounts.set(i, user);
+	            	break;
+	            }
+	        }
 		}
 	}
 	
