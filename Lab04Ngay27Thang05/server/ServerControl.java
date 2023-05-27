@@ -75,10 +75,6 @@ public class ServerControl {
 				
 				ObjectInputStream ois = new ObjectInputStream(socketFromClient.getInputStream());
 				Object obj = (Object)ois.readObject();
-				if(obj instanceof Serializable) {
-					Serializable s = (Serializable)obj;
-					System.out.println(s.toString());
-				}
 				User user = (User)obj;
 				System.out.println(obj.toString());
 				//User user = new 
@@ -86,6 +82,8 @@ public class ServerControl {
 				OutputStream output = socketFromClient.getOutputStream();
 				PrintWriter writer = new PrintWriter(output, true);
 				if(this.checkLogin(user)) {
+					boolean isOn = true;
+					ServerDBControl.updateOnOff(user.getUsername(), user.getPassword(), isOn);
 					this.view.showMessage("Success");
 					this.addAvailableUser(user);
 					writer.print("Success");
