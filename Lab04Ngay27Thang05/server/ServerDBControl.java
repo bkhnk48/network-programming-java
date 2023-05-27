@@ -40,4 +40,25 @@ public class ServerDBControl {
 		} 
 		return result;
 	}
+	
+	/*
+	 * Ham nay thuc hien viec cap nhat truong status cua bang User
+	 */
+	public static boolean updateOnOff(String username, String password, boolean isOn) {
+		String onOff = isOn ? "on" : "off";
+		String tempUpdate = "Update Users SET status = '" + onOff + "' where "
+								+ "username = '" + username + "' and "
+								+ "password = '" + password + "';";
+		
+		try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement();
+		) {	
+			
+			stmt.executeUpdate(tempUpdate);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return true;
+	}
 }
