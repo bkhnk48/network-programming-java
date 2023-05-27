@@ -43,21 +43,22 @@ public class ServerControl {
 		//openServer(6868);
 	}
 	
-	private boolean checkAlreadyLogin(User user) {
-		boolean found = false;
+	private int checkAlreadyLogin(User user) {
+		int index = -1;
 		for(User u : this.availableAccounts) {
+			index++;
 			if(u.equals(user)) {
-				found = true;
-				break;
+				return index;
 			}
 		}
-		return found;
+		return -1;
 	}
 	
 	private void addAvailableUser(User user) {
-		boolean found = this.checkAlreadyLogin(user);
-		if(!found)
+		int index = this.checkAlreadyLogin(user);
+		if(index != -1) {
 			this.availableAccounts.add(user);
+		}
 	}
 	
 	
@@ -106,7 +107,7 @@ public class ServerControl {
 	}
 	
 	public boolean checkLogin(User user) {
-		if(checkAlreadyLogin(user))//neu user da dang nhap roi thi khong cho dang nhap lan nua
+		if(checkAlreadyLogin(user) != -1)//neu user da dang nhap roi thi khong cho dang nhap lan nua
 			return false;
 		for(User u : listActiveAccounts) {
 			if(u.equals(user)) {
