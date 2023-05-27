@@ -78,9 +78,14 @@ public class ClientControl {
 							AvailableUsersInterface availUsers = 
 									(AvailableUsersInterface)Naming.lookup("rmi://localhost:789/availUsers");
 							ArrayList<String> allOtherUsers = availUsers.getAllAvailableUsers();
-							for(String name : allOtherUsers) {
-								if(!name.equals(model.getUsername()))
-									System.out.println("\t Available user " + name);
+							if(allOtherUsers != null && allOtherUsers.size() > 0) {
+								for(String name : allOtherUsers) {
+									if(!name.equals(model.getUsername()))
+										System.out.println("\t Available user " + name);
+								}
+							}
+							else {
+								System.out.println("No one in the room!");
 							}
 						}catch(Exception ex) {
 							ex.printStackTrace();
