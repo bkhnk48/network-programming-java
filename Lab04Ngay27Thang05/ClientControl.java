@@ -85,7 +85,7 @@ public class ClientControl {
 								}
 							}
 							else {
-								System.out.println("No one in the room!");
+								System.out.println("\t No one in the room!");
 							}
 						}catch(Exception ex) {
 							ex.printStackTrace();
