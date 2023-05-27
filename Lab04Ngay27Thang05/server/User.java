@@ -8,10 +8,24 @@ public class User implements Serializable{
 	private String username;
 	private String password;
 	private String status;
+	private int port;
 	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+		//Lay tam 3 so cuoi cua so dien thoai lam so cong
+		String strPort = this.username.substring(7, 9);
+		int x = Integer.parseInt(strPort);
+		x = x < 100 ? x + 100 : x;
+		this.port = x;
 	}
 	
 	public User(String username, String password, String status) {

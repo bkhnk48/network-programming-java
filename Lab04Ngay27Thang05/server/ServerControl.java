@@ -8,9 +8,12 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServerControl {
 	private ArrayList<User> listActiveAccounts;
@@ -21,11 +24,14 @@ public class ServerControl {
 	//private ServerSocket myServer;
 	//private Socket clietnSocket;
 	private ServerView view;
+	//private ArrayList<RMIClientInterface> listRMIClients;
+	private HashMap<String, RMIClientInterface> listRMIClients;
 	
 	public ServerControl(ServerView view) {
 		this.view = view;
 		listActiveAccounts = new ArrayList<User>();
 		availableAccounts = new ArrayList<User>();
+		listRMIClients = new HashMap<String, RMIClientInterface>();
 		/*listActiveAccounts.add(new User("0987654321", "111111"));
 		listActiveAccounts.add(new User("0988888888", "111111"));
 		listActiveAccounts.add(new User("0977777777", "111111"));
@@ -33,9 +39,10 @@ public class ServerControl {
 		listActiveAccounts = ServerDBControl.getAllUsers();
 		try {
 			availUsers = new AvailableUserImpl(availableAccounts);
+			availUsers.updateServerControl(this);
 			Registry registry = LocateRegistry.createRegistry(789);
 			registry.bind("availUsers", availUsers);
-			System.out.println("Dang ky thanh cong availUsers");
+			//System.out.println("Dang ky thanh cong availUsers");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -67,6 +74,33 @@ public class ServerControl {
 	            	break;
 	            }
 	        }
+			
+			for(int i = 0; i < this.availableAccounts.size(); i++) {
+				if(!this.availableAccounts.get(i).
+							getUsername().equals(user.getUsername())){
+					RMIClientInterface client = this.listRMIClients.get
+										(this.availableAccounts.get(i).
+							getUsername());
+					try {
+						client.notifyOnOff(user.getUsername(), "on");
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public void addRMIClientInterface(User user) {
+		try {
+			RMIClientInterface client = 
+					(RMIClientInterface)Naming.lookup("rmi://localhost:"
+											+ user.getPort() + "/" + user.getUsername());
+			this.listRMIClients.put(user.getUsername(), client);
+			System.out.println(this.listRMIClients.size());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -81,7 +115,7 @@ public class ServerControl {
 			System.out.println("Server is listening at the port: " + this.serverPort);
 			while(true) {
 				Socket socketFromClient = serverSocket.accept();
-				this.view.showMessage("New Client Connected");
+				//this.view.showMessage("New Client Connected");
 				
 				ObjectInputStream ois = new ObjectInputStream(socketFromClient.getInputStream());
 				Object obj = (Object)ois.readObject();
@@ -97,6 +131,8 @@ public class ServerControl {
 					this.view.showMessage("Success");
 					this.addAvailableUser(user);
 					writer.print("Success");
+					
+					
 				}
 				else {
 					this.view.showMessage("Failed");

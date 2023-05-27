@@ -12,10 +12,13 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.*;
 import javax.swing.*;
 
 import server.User;
+import server.AvailableUserImpl;
 import server.AvailableUsersInterface;
 
 public class ClientControl {
@@ -30,24 +33,7 @@ public class ClientControl {
 	    
 		this.view = view;
 		this.view.addLoginListener(new LoginListener(this));
-		/*list = new ArrayList<LoginModel>();
-		list.add(new User("0987654321", "q2w2e3"));*/
 	}
-	
-	/*public boolean checkUser(String request) {
-		/*for(User m : list) {
-			if(m.getPassword().equals(user.getPassword())
-			&& m.getUsername().equals(user.getUsername())
-					
-					) {
-				return true;
-			}
-		}
-		if("Login Successfully".equals(request)) {
-			view.showMessage(request);
-		}
-		return false;
-	}*/
 	
 	class LoginListener implements ActionListener{
 		private ClientControl control;
@@ -55,6 +41,18 @@ public class ClientControl {
 		public LoginListener(ClientControl control) {
 			this.control = control;
 		}
+		
+		public void registry(String username, int port) {
+			try {
+				Registry registry = LocateRegistry.createRegistry(port);
+				registry.rebind(username, new ClientNotificationImpl());
+				System.out.println("Client lien lac voi Registry thanh cong");
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e){
 			//Lấy thông tin đăng nhập ở ClientView
@@ -74,6 +72,9 @@ public class ClientControl {
 					control.view.showMessage(response);
 					if("Success".equals(response)) {
 						System.out.print("User " + model.getUsername() + " logins sucessfully: \n");
+						
+						registry(model.getUsername(), model.getPort());
+						
 						try {
 							AvailableUsersInterface availUsers = 
 									(AvailableUsersInterface)Naming.lookup("rmi://localhost:789/availUsers");
@@ -87,6 +88,8 @@ public class ClientControl {
 							else {
 								System.out.println("\t No one in the room!");
 							}
+							
+							availUsers.updateRMIClient(model);
 						}catch(Exception ex) {
 							ex.printStackTrace();
 						}

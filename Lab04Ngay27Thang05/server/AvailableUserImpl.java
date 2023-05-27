@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class AvailableUserImpl extends UnicastRemoteObject implements AvailableUsersInterface {
 	
 	private ArrayList<User> availableUsers;
+	private ServerControl control;
 
 	public void setAvailableUsers(ArrayList<User> availableUsers) {
 		this.availableUsers = availableUsers;
@@ -30,6 +31,15 @@ public class AvailableUserImpl extends UnicastRemoteObject implements AvailableU
 			}
 		}
 		return allAvailUsers;
+	}
+	
+	public void updateRMIClient(User user) throws RemoteException{
+		control.addRMIClientInterface(user);
+		//System.out.println(this.listRMIClients.size());
+	}
+	
+	public void updateServerControl(ServerControl control) throws RemoteException{
+		this.control = control;
 	}
 
 }
