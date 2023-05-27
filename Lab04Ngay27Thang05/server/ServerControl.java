@@ -60,7 +60,7 @@ public class ServerControl {
 			this.availableAccounts.add(user);
 			
 			//Cap nhat status trong listActiveAccounts
-			for (int i = 0; i < listActiveAccounts.size(); index++) {
+			for (int i = 0; i < listActiveAccounts.size(); i++) {
 	            if (listActiveAccounts.get(i).equals(user)) {
 	            	user.setStatus("on");
 	            	listActiveAccounts.set(i, user);
