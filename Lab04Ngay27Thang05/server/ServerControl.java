@@ -56,7 +56,7 @@ public class ServerControl {
 	
 	private void addAvailableUser(User user) {
 		int index = this.checkAlreadyLogin(user);
-		if(index != -1) {
+		if(index == -1) {
 			this.availableAccounts.add(user);
 			
 			//Cap nhat status trong listActiveAccounts
